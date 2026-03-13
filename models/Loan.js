@@ -8,6 +8,7 @@ const loanSchema = new mongoose.Schema(
     interestRate: { type: Number, required: [true, "Interest rate is required"], min: 0 },
     duration:     { type: Date,   required: [true, "Duration date is required"] },
     status:       { type: String, enum: ["Active", "Inactive"], default: "Active" },
+    inactiveDate: { type: Date, default: null }, // set when status → Inactive, freeze interest calc
     userId:       { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }

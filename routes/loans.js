@@ -89,6 +89,13 @@ router.put(
     const allowed = ["borrowerName", "phone", "amount", "interestRate", "duration", "status"];
     allowed.forEach((f) => { if (req.body[f] !== undefined) loan[f] = req.body[f]; });
 
+    // Auto-set inactiveDate when toggling status
+    if (req.body.status === "Inactive" && !loan.inactiveDate) {
+      loan.inactiveDate = new Date();
+    } else if (req.body.status === "Active") {
+      loan.inactiveDate = null; // reactivated — clear freeze date
+    }
+
     const updated = await loan.save();
     res.json(updated);
   })
